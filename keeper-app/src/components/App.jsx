@@ -3,33 +3,38 @@ import Header from "./Header";
 import Footer from "./Footer";
 import Note from "./Note";
 import CreateArea from "./CreateArea";
-import notes from "../data";
 
 function App() {
-    const [data, setData] = useState([...notes]);
+  const [notes, setNotes] = useState([]);
 
-    function addItem(input) {
-        setData(prevValue => {
-            return [...prevValue, input]
-        });
-    }
+  function addNote(newNote) {
+    setNotes(prevNotes => {
+      return [...prevNotes, newNote];
+    });
+  }
 
-    function deleteItem(id) {
-        console.log(id);
-        setData(prevValue => {
-            return prevValue.filter((item, index) => index !== id)
-        })
-        console.log(data);
-    }
+  function deleteNote(id) {
+    setNotes(prevNotes => {
+      return prevNotes.filter((noteItem, index) => {
+        return index !== id;
+      });
+    });
+  }
 
   return (
     <div>
       <Header />
-      <CreateArea onAdd={addItem}/>
-      {data.map((item, index) => {
+      <CreateArea onAdd={addNote} />
+      {notes.map((noteItem, index) => {
         return (
-            <Note key={index} id={index} title={item.title} content={item.content} onDelete={deleteItem}/>
-        )
+          <Note
+            key={index}
+            id={index}
+            title={noteItem.title}
+            content={noteItem.content}
+            onDelete={deleteNote}
+          />
+        );
       })}
       <Footer />
     </div>
